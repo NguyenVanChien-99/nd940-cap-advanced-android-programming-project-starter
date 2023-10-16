@@ -56,6 +56,8 @@ dependencies {
 
     // Core with Ktx
     implementation "androidx.core:core-ktx:$version_core"
+    implementation "androidx.room:room-ktx:$version_room"
+    implementation "androidx.room:room-runtime:$version_room"
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$version_retrofit"

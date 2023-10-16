@@ -15,7 +15,7 @@ import com.example.android.politicalpreparedness.databinding.ViewholderRepresent
 import com.example.android.politicalpreparedness.network.models.Channel
 import com.example.android.politicalpreparedness.representative.model.Representative
 
-class RepresentativeListAdapter: ListAdapter<Representative, RepresentativeViewHolder>(RepresentativeDiffCallback()){
+class RepresentativeListAdapter(listener: RepresentativeListener): ListAdapter<Representative, RepresentativeViewHolder>(RepresentativeDiffCallback()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepresentativeViewHolder {
         return RepresentativeViewHolder.from(parent)
@@ -77,7 +77,19 @@ class RepresentativeViewHolder(val binding: ViewholderRepresentativeBinding): Re
     }
 
 }
+class RepresentativeDiffCallback : DiffUtil.ItemCallback<Representative>() {
+    override fun areItemsTheSame(oldItem: Representative, newItem: Representative): Boolean {
+        return oldItem.office == newItem.office &&
+                oldItem.official == newItem.official
+    }
 
-//TODO: Create RepresentativeDiffCallback
+    override fun areContentsTheSame(oldItem: Representative, newItem: Representative): Boolean {
+        return oldItem == newItem
+    }
+}
 
-//TODO: Create RepresentativeListener
+class RepresentativeListener(val listener: (representative: Representative) -> Unit) {
+    fun onClick(representative: Representative) {
+        listener(representative)
+    }
+}
