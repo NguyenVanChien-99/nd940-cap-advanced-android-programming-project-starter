@@ -8,5 +8,9 @@
     <string name="city">City</string>
     <string name="zip">Zip</string>
     <string name="my_representative">My Representative</string>
+    <string name="representative_image">Representative Image</string>
+    <string name="facebook">Facebook</string>
+    <string name="website">Website</string>
+    <string name="twitter">Twitter</string>
 
 </resources>

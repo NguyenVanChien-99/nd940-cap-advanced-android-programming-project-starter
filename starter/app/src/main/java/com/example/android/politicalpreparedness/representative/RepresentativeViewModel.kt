@@ -1,12 +1,24 @@
 package com.example.android.politicalpreparedness.representative
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.android.politicalpreparedness.network.models.Address
+import com.example.android.politicalpreparedness.repository.Repository
+import com.example.android.politicalpreparedness.representative.model.Representative
+import kotlinx.coroutines.launch
 
-class RepresentativeViewModel: ViewModel() {
+class RepresentativeViewModel(private val repository: Repository) : ViewModel() {
 
-    //TODO: Establish live data for representatives and address
+    val representatives = MutableLiveData<List<Representative>>()
+    var address = MutableLiveData<Address>()
 
-    //TODO: Create function to fetch representatives from API from a provided address
+    private fun fetchRepresentatives(add: Address){
+        viewModelScope.launch {
+            val (offices, officials)= repository.getRepresentativeFromApi(add.toFormattedString())
+            representatives.value = offices.flatMap { office -> office.getRepresentatives(officials) }
+        }
+    }
 
     /**
      *  The following code will prove helpful in constructing a representative from the API. This code combines the two nodes of the RepresentativeResponse into a single official :
@@ -19,8 +31,12 @@ class RepresentativeViewModel: ViewModel() {
 
      */
 
-    //TODO: Create function get address from geo location
+    fun useLocation(add: Address){
+        address.value=add
+        fetchRepresentatives(add)
+    }
 
-    //TODO: Create function to get address from individual fields
-
+    fun getRepresentativesFromAddress(){
+        address.value?.let { fetchRepresentatives(it) }
+    }
 }

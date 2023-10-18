@@ -18,10 +18,10 @@ interface ElectionDao {
     suspend fun getAllElection(): List<Election>
 
     @Query("SELECT * FROM election_table where id = :id")
-    suspend fun getSingleElection(id: String): Election?
+    suspend fun getSingleElection(id: Int): Election?
 
     @Delete
-    suspend fun delete(election: Election): Int
+    suspend fun delete(election: Election)
 
     @Query("DELETE FROM election_table")
     suspend fun clear()
