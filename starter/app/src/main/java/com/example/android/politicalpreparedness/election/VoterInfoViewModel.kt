@@ -9,11 +9,11 @@ import com.example.android.politicalpreparedness.network.models.VoterInfoRespons
 import com.example.android.politicalpreparedness.repository.ElectionRepositoryImpl
 import kotlinx.coroutines.launch
 
-class VoterInfoViewModel(private val dataSource: ElectionDao) : ViewModel() {
+class VoterInfoViewModel(dataSource: ElectionDao) : ViewModel() {
 
     private val repository = ElectionRepositoryImpl(dataSource)
     val voterInfo = MutableLiveData<VoterInfoResponse>()
-    val savedElection = MutableLiveData<Election>()
+    val savedElection = MutableLiveData<Election?>()
 
 
     //TODO: Add live data to hold voter info
@@ -40,6 +40,14 @@ class VoterInfoViewModel(private val dataSource: ElectionDao) : ViewModel() {
     fun removeElection(election: Election) {
         viewModelScope.launch {
             repository.deleteElection(election)
+            savedElection.value=null
+        }
+    }
+
+    fun fetchElection(electionId: Int) {
+        viewModelScope.launch {
+            val election=repository.getElection(electionId)
+            savedElection.value = election
         }
     }
     //TODO: cont'd -- Populate initial state of save button to reflect proper action based on election saved status

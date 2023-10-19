@@ -1,8 +1,14 @@
 package com.example.android.politicalpreparedness.representative.adapter
 
+import android.content.Intent
+import android.net.Uri
+import android.text.TextUtils
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Spinner
+import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
@@ -32,6 +38,19 @@ fun Spinner.setNewValue(value: String?) {
     }
     if (position >= 0) {
         setSelection(position)
+    }
+}
+
+@BindingAdapter("externalLink")
+fun externalLink(view: TextView, url: String?) {
+    if (TextUtils.isEmpty(url)) {
+        view.visibility = View.GONE
+    } else {
+        view.visibility = View.VISIBLE
+        view.setOnClickListener { v ->
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(v.context, intent, null)
+        }
     }
 }
 

@@ -9,7 +9,7 @@
         tools:context="com.example.android.politicalpreparedness.MainActivity">
 
         <Button
-            android:id="@+id/btnFindMyRep"
+            android:id="@+id/buttonRepresentative"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -24,7 +24,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/btnFindMyRep2"
+            android:id="@+id/buttonElection"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -34,7 +34,7 @@
             android:text="@string/upcoming_elections"
             android:textColor="@color/white"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/btnFindMyRep"
+            app:layout_constraintBottom_toTopOf="@+id/buttonRepresentative"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
@@ -43,7 +43,7 @@
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/btnFindMyRep2"
+            app:layout_constraintBottom_toTopOf="@+id/buttonElection"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
