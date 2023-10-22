@@ -1,5 +1,6 @@
 package com.example.android.politicalpreparedness.representative
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,6 +18,7 @@ class RepresentativeViewModel(private val repository: Repository) : ViewModel() 
         viewModelScope.launch {
             val (offices, officials)= repository.getRepresentativeFromApi(add.toFormattedString())
             representatives.value = offices.flatMap { office -> office.getRepresentatives(officials) }
+            Log.i("fetchRepresentatives", "fetchRepresentatives: ${representatives.value}")
         }
     }
 

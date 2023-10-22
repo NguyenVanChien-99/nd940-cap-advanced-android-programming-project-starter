@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.example.android.politicalpreparedness.R
@@ -37,6 +38,7 @@ class VoterInfoFragment : Fragment() {
         binding = FragmentVoterInfoBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        binding.election=args.election
 
         if (args.argDivision.state.isNotEmpty() && args.argDivision.country.isNotEmpty()) {
             val address = "${args.argDivision.state}, ${args.argDivision.country}"
@@ -49,15 +51,22 @@ class VoterInfoFragment : Fragment() {
         /**
         Hint: You will need to ensure proper data is provided from previous fragment.
          */
+
+        viewModel.savedElection.observe(viewLifecycleOwner, Observer {
+            if (viewModel.savedElection.value == null) {
+                binding.buttonFollow.setText(R.string.follow_election)
+            } else {
+                binding.buttonFollow.setText(R.string.unfollow_election)
+            }
+        })
+
         binding.buttonFollow.setOnClickListener {
 
             viewModel.voterInfo.value?.let { it1 ->
                 if (viewModel.savedElection.value == null) {
                     viewModel.saveElection(it1.election)
-                    binding.buttonFollow.setText(R.string.unfollow_election)
                 } else {
                     viewModel.removeElection(it1.election)
-                    binding.buttonFollow.setText(R.string.follow_election)
                 }
             }
         }

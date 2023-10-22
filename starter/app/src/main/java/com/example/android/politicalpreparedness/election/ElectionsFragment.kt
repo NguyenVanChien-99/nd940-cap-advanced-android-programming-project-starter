@@ -1,6 +1,7 @@
 package com.example.android.politicalpreparedness.election
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,10 +63,12 @@ class ElectionsFragment : Fragment() {
 
         viewModel.selectedElection.observe(viewLifecycleOwner) {
             it?.let {
+                Log.i("selectedElection", "onCreateView: ${it.division}")
                 findNavController().navigate(
                     ElectionsFragmentDirections.actionElectionsFragmentToVoterInfoFragment(
                         it.id,
-                        it.division
+                        it.division,
+                        it,
                     )
                 )
                 viewModel.finishNavigateToElectionDetail()

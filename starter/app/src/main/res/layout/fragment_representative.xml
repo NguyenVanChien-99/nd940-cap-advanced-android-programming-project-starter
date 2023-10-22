@@ -64,13 +64,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/address_line_2" />
 
-            <!-- TODO: Add default values from provided resources  -->
             <!-- TODO: Add data binding value -->
             <Spinner
                 android:id="@+id/state"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:autofillHints=""
+                android:entries="@array/states"
                 android:inputType="textPostalAddress"
                 app:layout_constraintBottom_toBottomOf="@id/city"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -94,12 +94,14 @@
                 android:id="@+id/button_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/find_my_representatives"
                 app:layout_constraintTop_toBottomOf="@id/zip" />
 
             <Button
                 android:id="@+id/button_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/use_my_location"
                 app:layout_constraintTop_toBottomOf="@id/button_search" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -108,7 +110,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_constraint">
+            app:layout_constraintTop_toTopOf="@+id/address_form">
 
             <TextView
                 android:id="@+id/representative_title"

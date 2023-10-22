@@ -15,6 +15,7 @@
         tools:context="com.example.android.politicalpreparedness.MainActivity">
 
         <androidx.recyclerview.widget.RecyclerView
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:id="@+id/savedElections"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -54,6 +55,7 @@
             app:layout_constraintGuide_begin="338dp" />
 
         <androidx.recyclerview.widget.RecyclerView
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:id="@+id/upcomingElections"
             android:layout_width="409dp"
             android:layout_height="290dp"

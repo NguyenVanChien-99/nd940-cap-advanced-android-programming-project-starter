@@ -1,5 +1,6 @@
 package com.example.android.politicalpreparedness.election
 
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +10,7 @@ import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.network.models.ElectionResponse
 import com.example.android.politicalpreparedness.repository.ElectionRepositoryImpl
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class ElectionsViewModel(dataSource: ElectionDao) : ViewModel() {
 
@@ -20,7 +22,11 @@ class ElectionsViewModel(dataSource: ElectionDao) : ViewModel() {
 
     fun fetchElections() {
         viewModelScope.launch {
-            upcomingElections.value = repository.getElectionsFromApi()
+            try {
+                upcomingElections.value =repository.getElectionsFromApi()
+            }catch (e :Exception) {
+                Timber.tag("GetElectionFromApi").e("fetchElections: %s", e.message)
+            }
             savedElections.value = repository.getElectionsFromDatabase()
         }
     }

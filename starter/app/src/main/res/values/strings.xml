@@ -16,5 +16,8 @@
     <string name="unfollow_election">UnFollow Election</string>
     <string name="state_location">State Location</string>
     <string name="state_ballot">State Ballot</string>
+    <string name="use_my_location">Use My Location</string>
+    <string name="voting_locations">Voting locations</string>
+    <string name="ballot_information">Ballot information</string>
 
 </resources>
