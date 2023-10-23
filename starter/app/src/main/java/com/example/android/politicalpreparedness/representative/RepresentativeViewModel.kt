@@ -14,7 +14,7 @@ class RepresentativeViewModel(private val repository: Repository) : ViewModel() 
 
     val representatives = MutableLiveData<List<Representative>>()
     val address = MutableLiveData<Address>()
-
+    lateinit var representatives_stored : ArrayList<Representative>
     init {
         address.value= Address("","","","","")
     }

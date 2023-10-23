@@ -5,7 +5,9 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
@@ -20,10 +22,12 @@ import com.example.android.politicalpreparedness.databinding.FragmentRepresentat
 import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.repository.RepositoryImpl
 import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListAdapter
+import com.example.android.politicalpreparedness.representative.model.Representative
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import timber.log.Timber
 import java.util.Locale
+import kotlin.collections.ArrayList
 
 class DetailFragment : Fragment() {
 
@@ -54,11 +58,20 @@ class DetailFragment : Fragment() {
 
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireContext())
+        var stored : ArrayList<Representative>? = null
+        stored = if(android.os.Build.VERSION.SDK_INT >= 33)
+            savedInstanceState?.getParcelableArrayList("representatives", Representative::class.java)
+        else savedInstanceState?.getParcelable("representatives")
 
 
         val adapter = RepresentativeListAdapter()
         binding.representativeRecyclerView.adapter = adapter
+        if(stored != null) {
+
+        }
+
         viewModel.representatives.observe(viewLifecycleOwner) {
+            viewModel.representatives_stored= it as ArrayList<Representative>
             adapter.submitList(it)
         }
 
@@ -84,6 +97,11 @@ class DetailFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelableArrayList("representatives",viewModel.representatives_stored)
     }
 
     @Deprecated("Deprecated in Java")
