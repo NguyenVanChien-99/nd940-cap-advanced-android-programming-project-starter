@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
@@ -21,6 +22,7 @@ import com.example.android.politicalpreparedness.repository.RepositoryImpl
 import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListAdapter
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import timber.log.Timber
 import java.util.Locale
 
 class DetailFragment : Fragment() {
@@ -148,6 +150,7 @@ class DetailFragment : Fragment() {
         val geocoder = Geocoder(requireContext(), Locale.getDefault())
         return geocoder.getFromLocation(location.latitude, location.longitude, 1)
             ?.map { address ->
+                Timber.tag("geoCodeLocation").i("geoCodeLocation: %s", address)
                 Address(
                     address.thoroughfare,
                     address.subThoroughfare,

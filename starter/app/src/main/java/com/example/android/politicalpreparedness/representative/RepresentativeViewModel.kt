@@ -8,11 +8,16 @@ import com.example.android.politicalpreparedness.network.models.Address
 import com.example.android.politicalpreparedness.repository.Repository
 import com.example.android.politicalpreparedness.representative.model.Representative
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class RepresentativeViewModel(private val repository: Repository) : ViewModel() {
 
     val representatives = MutableLiveData<List<Representative>>()
-    var address = MutableLiveData<Address>()
+    val address = MutableLiveData<Address>()
+
+    init {
+        address.value= Address("","","","","")
+    }
 
     private fun fetchRepresentatives(add: Address){
         viewModelScope.launch {
@@ -34,7 +39,7 @@ class RepresentativeViewModel(private val repository: Repository) : ViewModel() 
      */
 
     fun useLocation(add: Address){
-        address.value=add
+//        address.value=add
         fetchRepresentatives(add)
     }
 
