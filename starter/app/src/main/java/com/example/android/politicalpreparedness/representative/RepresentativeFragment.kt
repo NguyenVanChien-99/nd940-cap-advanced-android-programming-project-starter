@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -59,15 +60,19 @@ class DetailFragment : Fragment() {
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireContext())
         var stored : ArrayList<Representative>? = null
-        stored = if(android.os.Build.VERSION.SDK_INT >= 33)
-            savedInstanceState?.getParcelableArrayList("representatives", Representative::class.java)
-        else savedInstanceState?.getParcelable("representatives")
+         if(Build.VERSION.SDK_INT >= 33){
+             stored = savedInstanceState?.getParcelableArrayList("representatives", Representative::class.java)
+        } else {
+             stored = savedInstanceState?.getParcelableArrayList("representatives")
+         }
 
+        savedInstanceState?.getInt("motionLayoutCurrentState")
+            ?.let { binding.motionLayout.transitionToState(it) }
 
         val adapter = RepresentativeListAdapter()
         binding.representativeRecyclerView.adapter = adapter
         if(stored != null) {
-
+            viewModel.representatives.value=stored
         }
 
         viewModel.representatives.observe(viewLifecycleOwner) {
@@ -77,11 +82,11 @@ class DetailFragment : Fragment() {
 
         binding.state.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                viewModel.address.value?.state = binding.state.selectedItem as String
+                viewModel.state.value = binding.state.selectedItem as String
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                viewModel.address.value?.state = binding.state.selectedItem as String
+                viewModel.state.value = binding.state.selectedItem as String
             }
         }
 
@@ -101,7 +106,9 @@ class DetailFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putParcelableArrayList("representatives",viewModel.representatives_stored)
+        Log.i("onSaveInstanceState", "onSaveInstanceState: ${viewModel.representatives_stored}")
+        outState.putParcelableArrayList("representatives",ArrayList<Parcelable>(viewModel.representatives_stored))
+        outState.putInt("motionLayoutCurrentState",binding.motionLayout.currentState)
     }
 
     @Deprecated("Deprecated in Java")

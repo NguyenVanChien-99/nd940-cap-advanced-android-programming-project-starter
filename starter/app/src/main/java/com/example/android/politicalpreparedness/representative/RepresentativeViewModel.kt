@@ -13,17 +13,27 @@ import timber.log.Timber
 class RepresentativeViewModel(private val repository: Repository) : ViewModel() {
 
     val representatives = MutableLiveData<List<Representative>>()
-    val address = MutableLiveData<Address>()
+//    val address = MutableLiveData<Address>()
+    var line1 = MutableLiveData<String>()
+    val line2 = MutableLiveData<String>()
+    val state = MutableLiveData<String>()
+    val city = MutableLiveData<String>()
+    val zip = MutableLiveData<String>()
     lateinit var representatives_stored : ArrayList<Representative>
     init {
-        address.value= Address("","","","","")
+//        address.value= Address("","","","","")
+        line1.value=""
+        line2.value=""
+        state.value=""
+        city.value=""
+        zip.value=""
+        representatives_stored= ArrayList()
     }
 
     private fun fetchRepresentatives(add: Address){
         viewModelScope.launch {
             val (offices, officials)= repository.getRepresentativeFromApi(add.toFormattedString())
             representatives.value = offices.flatMap { office -> office.getRepresentatives(officials) }
-            Log.i("fetchRepresentatives", "fetchRepresentatives: ${representatives.value}")
         }
     }
 
@@ -44,6 +54,7 @@ class RepresentativeViewModel(private val repository: Repository) : ViewModel() 
     }
 
     fun getRepresentativesFromAddress(){
-        address.value?.let { fetchRepresentatives(it) }
+        val address= Address(line1.value!!, line2.value, city.value!!, state.value!!, zip.value!!)
+        fetchRepresentatives(address)
     }
 }
